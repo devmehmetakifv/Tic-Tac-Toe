@@ -48,8 +48,16 @@ printf("|-----------------------------------------------------------------------
         displayCurrentBoard();
         printf("=> %s, please enter a number in the board where you want to place your X: ",firstPlayer);
         scanf("%d",&firstPlayerInp);
-        if(firstPlayerInp < 0 || firstPlayerInp > 8){
-            printf("You entered wrong number! Game is suspended!");
+        if(numCheck(firstPlayerInp) == 1){
+            if(firstPlayerInp < 0 || firstPlayerInp > 8){
+                printf("You entered wrong number! Game terminated!");
+                isGameRunning == 0;
+                break;
+            }
+        }
+        else{
+            printf("You must enter an integer which in the range of 0 to 8! Game terminated!");
+            isGameRunning == 0;
             break;
         }
         firstPlayerMove(firstPlayerInp);
@@ -66,10 +74,17 @@ printf("|-----------------------------------------------------------------------
             displayCurrentBoard();
             printf("=> %s, please enter a number in the board where you want to place your O: ",secondPlayer);
             scanf("%d",&secondPlayerInp);
-            if(secondPlayerInp < 0 || secondPlayerInp > 8){
-            printf("You entered wrong number! Game is suspended!");
-            break;
-        }
+            if(numCheck(secondPlayerInp) == 1){
+                if(secondPlayerInp < 0 || secondPlayerInp > 8){
+                printf("You entered wrong number! Game is suspended!");
+                break;
+                }
+            }
+            else{
+                printf("You must enter an integer which in the range of 0 to 8! Game terminated!");
+                isGameRunning == 0;
+                break;
+            }
             secondPlayerMove(secondPlayerInp);
             int secondPlayerWin = secondPlayerWinCheck();
             isDraw = drawCheck();
@@ -157,6 +172,7 @@ int firstPlayerMove(int pos){
     }
     else if(board[pos] == 'X' || board[pos] == 'O'){
         printf("That spot was taken!\n");
+        isGameRunning = 0;
     }
 }
 int secondPlayerMove(int pos){
@@ -165,6 +181,7 @@ int secondPlayerMove(int pos){
     }
     else if(board[pos] == 'X' || board[pos] == 'O'){
         printf("That spot was taken!\n");
+        isGameRunning = 0;
     }
 }
 int firstPlayerWinCheck(){
@@ -234,3 +251,12 @@ int drawCheck(){
     }
 
 }
+int numCheck(int pos){
+    if(pos == 0 || pos == 1 || pos == 2 || pos == 3 || pos == 4 || pos == 5 || pos == 6 || pos == 7 || pos == 8){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
